@@ -31,13 +31,25 @@ const Title = styledComponents.h2`
     border-bottom: 1px solid darkGray;
 `;
 
-const Lane = ({ tickets, loading, error, title }) => {
+const Lane = ({ 
+        laneId, 
+        tickets, 
+        loading, 
+        error, 
+        onDragStart, 
+        onDragOver,
+        onDrop, 
+        title 
+    }) => {
     return (
-        <LaneWrapper>
+        <LaneWrapper 
+            onDragOver={onDragOver}
+            onDrop={e => onDrop(e, laneId)}
+            >
             <Title>{ title }</Title>
             {(loading || error) && <Alert>{loading ? 'Loading...' : error}</Alert>}
             <TicketsWrapper>
-                {tickets.map(ticket => <Ticket key={ticket.id} ticket={ticket} />)}
+                {tickets.map(ticket => <Ticket key={ticket.id} onDragStart={onDragStart} ticket={ticket} />)}
             </TicketsWrapper>
         </LaneWrapper>
     );    
